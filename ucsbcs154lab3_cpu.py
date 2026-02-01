@@ -1,19 +1,12 @@
 import pyrtl
 #pyrtl.set_debug_mode()
-# ucsbcs154lab3
-# All Rights Reserved
+# code setup: based on ucsbcs154lab3
 # Copyright (c) 2023 Regents of the University of California
-# Distribution Prohibited
 
-# Initialize your memblocks here: 
 i_mem = pyrtl.MemBlock(bitwidth = 32, addrwidth=32, name ='i_mem')
 d_mem = pyrtl.MemBlock(bitwidth=32, addrwidth=32, name='d_mem', asynchronous=True)
 rf    = pyrtl.MemBlock(bitwidth=32, addrwidth=5, name='rf', asynchronous=True)
-# When working on large designs, such as this CPU implementation, it is
-# useful to partition your design into smaller, reusable, hardware
-# blocks. We have indicated where you should put different hardware blocks 
-# to help you get write your CPU design. You have already worked on some 
-# parts of this logic in prior labs, like the decoder and alu.
+#program counter
 PC = pyrtl.Register(bitwidth=32)
 ## DECODER
 # decode the instruction
@@ -30,7 +23,7 @@ sh = pyrtl.WireVector(bitwidth=5, name='sh')
 func = pyrtl.WireVector(bitwidth=6, name='func')
 imm = pyrtl.WireVector(bitwidth=16, name='imm')
 
-### ADD YOUR INSTRUCTION DECODE LOGIC HERE ###
+### INSTRUCTION DECODE LOGIC
 op <<= instr[26:32]
 rs <<= instr[21:26]
 rt <<= instr[16:21]
@@ -46,22 +39,91 @@ with pyrtl.conditional_assignment:
     with op == 0: #r types
         with func == 0x20: #add
             control_signals |= 0b1010000000
+        with func == 0x21: #addu
+            control_signals |=
         with func == 0x24: #and
             control_signals |= 0b1010000001
+        with func == 0x08: #jr
+            control_signals
+        with func == 0x27: #nor
+            control_signals
+        with func == 0x25: #or
+            control_signals
         with func == 0x2A: #slt
             control_signals |= 0b1010000100
+        with func == 0x2b: #sltu
+            control_signals
+        with func == 0x00: #sll
+            control_signals
+        with func == 0x02: #srl
+            control_signals
+        with func == 0x22: #sub
+            control_signals
+        with func == 0x23: #subu
+            control_signals
+        with func == 0x1a: #div
+            control_signals
+        with func == 0x1b: #divu
+            control_signals
+        with func == 0x10: #mfhi
+            control_signals
+        with func == 0x12: #mflo
+            control_signals
+        #mfc0 ?
+        with func == 0x18: #mult
+            control_signals
+        with func == 0x19: #multu
+            control_signals
+        with func == 0x3: #sra
+            control_signals
     with op == 0x8: #addi
         control_signals |= 0b0010100000
-    with op == 0xF: #lui
-        control_signals |= 0b0010100010
-    with op == 0xD: #ori
-        control_signals |= 0b0011000011
-    with op == 0x2B: #sw
-        control_signals |= 0b0000110000
-    with op == 0x23: #lw
-        control_signals |= 0b0010101000
+    with op == 0x9: #addiu
+        control_signals
+    with op == 0xC: #andi
+        control_signals
     with op == 0x4: #beq
         control_signals |= 0b0100000101
+    with op == 0x5: #bne
+        control_signals 
+    with op == 0x2: #j
+        control_signals
+    with op == 0x3: #jal
+        control_signals
+    with op == 0x08: #jr
+        control_signals
+    with op == 0x24: #lbu
+        control_signals
+    with op == 0x25: #lhu
+        control_signals
+    with op == 0x30: #ll
+        control_signals
+    with op == 0xF: #lui
+        control_signals |= 0b0010100010
+    with op == 0x23: #lw
+        control_signals |= 0b0010101000
+    with op == 0xD: #ori
+        control_signals |= 0b0011000011
+    with op == 0xA: #slti
+        control_signals
+    with op == 0xB: #sltiu
+        control_signals
+    with op == 0x28: #sb
+        control_signals
+    with op == 0x38: #sc
+        control_signals
+    with op == 0x29:#sh
+        control_signals
+    with op == 0x2B: #sw
+        control_signals |= 0b0000110000
+    with op == 0x31: #lwcl
+        control_signals
+    with op == 0x35: #ldcl
+        control_signals
+    with op == 0x39: #swcl
+        control_signals
+    with op == 0x3D: #sdcl
+        control_signals
 
 #extract the control signals 
 reg_dst = pyrtl.WireVector(bitwidth=1, name='reg_dst')
