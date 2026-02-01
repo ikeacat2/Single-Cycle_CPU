@@ -40,7 +40,7 @@ with pyrtl.conditional_assignment:
         with func == 0x20: #add
             control_signals |= 0b1010000000
         with func == 0x21: #addu
-            control_signals |=
+            control_signals 
         with func == 0x24: #and
             control_signals |= 0b1010000001
         with func == 0x08: #jr
@@ -133,6 +133,11 @@ alu_src = pyrtl.WireVector(bitwidth=2, name='alu_src')
 mem_write = pyrtl.WireVector(bitwidth=1, name='mem_write')
 mem_to_reg = pyrtl.WireVector(bitwidth=1, name='mem_to_reg')
 alu_op = pyrtl.WireVector(bitwidth=3, name='alu_op')
+mem_read = pyrtl.WireVector(bitwidth=1, name='mem_read')
+jump = pyrtl.WireVector(bitwidth=1, name='jump')
+jump_reg = pyrtl.WireVector(bitwidth=1, name='jump_reg')
+link = pyrtl.WireVector(bitwidth=1, name='link')
+branch_NE = pyrtl.WireVector(bitwidth=1, name='branch_NE')
 
 reg_dst <<= control_signals[9:10]
 branch <<= control_signals[8:9]
